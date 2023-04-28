@@ -1,7 +1,6 @@
 package at.jku.cps.travart.core.formats.afm.parser;
 
-
-// Generated from src/main/java/at/jku/cps/travart/afm/decision/parser/AFM.g4 by ANTLR 4.7.2
+// Generated from src/main/java/at/jku/cps/travart/core/formats/afm/parser/AFM.g4 by ANTLR 4.7.2
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**

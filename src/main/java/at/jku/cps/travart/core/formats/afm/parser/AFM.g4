@@ -58,7 +58,7 @@ brackets_spec:
 simple_spec: SPACE? expression SPACE? ';' SPACE?;
 
 expression:
-	SPACE? '(' expression ')' SPACE?			# parenthesisExp
+	SPACE? '(' SPACE? expression SPACE? ')' SPACE?			# parenthesisExp
 	| SPACE? NOT SPACE? expression							# notExp
 	| expression SPACE? arithmetic_operator SPACE? expression	# arithmeticExp
 	| expression SPACE? relational_operator SPACE? expression	# relationalExp

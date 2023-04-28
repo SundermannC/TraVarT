@@ -1,6 +1,10 @@
 package at.jku.cps.travart.core.formats.afm.parser;
 
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import at.jku.cps.travart.core.formats.afm.parser.AFMParser.AndExpContext;
 import at.jku.cps.travart.core.formats.afm.parser.AFMParser.ArithmeticExpContext;
 import at.jku.cps.travart.core.formats.afm.parser.AFMParser.AtomContext;
@@ -32,8 +36,8 @@ public class AFMVisitorImpl extends AFMBaseVisitor<Constraint> {
         featureModel = new FeatureModel();
     }
 
-    public void printModel() {
-        System.out.println(featureModel.toString());
+    public FeatureModel getModel() {
+        return featureModel;
     }
 
     private void addFeatureToGroup(String name, Group parentGroup) {
@@ -196,13 +200,31 @@ public class AFMVisitorImpl extends AFMBaseVisitor<Constraint> {
     @Override
     public Constraint visitSimple_spec(Simple_specContext ctx) {
         Constraint constraint = ctx.expression().accept(this);
+        for (String containedFeature : getContainedFeatures(constraint)) {
+            if (!featureModel.getFeatureMap().containsKey(containedFeature)) {
+                System.out.println("Skipped Constraint: " + constraint.toString());
+                return null;
+            }
+        }
         featureModel.getOwnConstraints().add(constraint);
         return null;
     }
 
+    private Set<String> getContainedFeatures(Constraint constraint) {
+        Set<String> names = new LinkedHashSet<>();
+        if (constraint instanceof LiteralConstraint) {
+            LiteralConstraint literal = (LiteralConstraint) constraint;
+            names.add(literal.getLiteral());
+        } else {
+            for (Constraint subConstraint : constraint.getConstraintSubParts()) {
+                names.addAll(getContainedFeatures(subConstraint));
+            }
+        }
+        return names;
+    }
+
     @Override
     public Constraint visitArithmeticExp(ArithmeticExpContext ctx) {
-        // TODO Auto-generated method stub
         return null;
     }
 

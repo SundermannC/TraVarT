@@ -13,8 +13,16 @@
         <deploy.disabled>true</deploy.disabled>
         <source.disabled>true</source.disabled>
         <checkstyle-maven-plugin.version>3.2.1</checkstyle-maven-plugin.version>
+        <exec.mainClass>at.jku.cps.travart.core.ParserMain</exec.mainClass>
     </properties>
     <dependencies>
+
+        <dependency>
+            <groupId>net.lingala.zip4j</groupId>
+            <artifactId>zip4j</artifactId>
+            <version>2.11.5</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.pf4j/pf4j -->
         <dependency>
             <groupId>org.pf4j</groupId>
@@ -29,20 +37,30 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>de.ovgu.featureide</groupId>
+            <artifactId>lib.fm</artifactId>
+            <version>3.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>de.ovgu.featureide</groupId>
+            <artifactId>lib.fm.attributes</artifactId>
+            <version>3.9.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.logicng</groupId>
             <artifactId>logicng</artifactId>
             <version>2.4.1</version>
         </dependency>
-        <dependency>
-            <groupId>de.ovgu.featureide</groupId>
-            <artifactId>lib.fm</artifactId>
-            <version>3.9.1</version>
-		</dependency>
 		<dependency>
 			<groupId>org.opt4j</groupId>
 			<artifactId>opt4j-satdecoding</artifactId>
 			<version>3.1.4</version>
 		</dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>3.4</version>
+        </dependency>
     </dependencies>
 
     <build>
