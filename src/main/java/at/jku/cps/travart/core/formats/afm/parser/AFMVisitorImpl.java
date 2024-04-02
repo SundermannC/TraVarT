@@ -1,9 +1,11 @@
 package at.jku.cps.travart.core.formats.afm.parser;
 
 
-import java.util.HashSet;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+import com.google.errorprone.annotations.OverridingMethodsMustInvokeSuper;
 
 import at.jku.cps.travart.core.formats.afm.parser.AFMParser.AndExpContext;
 import at.jku.cps.travart.core.formats.afm.parser.AFMParser.ArithmeticExpContext;
@@ -31,9 +33,14 @@ import de.vill.model.constraint.ParenthesisConstraint;
 public class AFMVisitorImpl extends AFMBaseVisitor<Constraint> {
 
     private FeatureModel featureModel;
+    private Feature root;
+    private boolean rootInitialized;
+    private boolean hasSynthesizedRoot;
 
     public AFMVisitorImpl() {
         featureModel = new FeatureModel();
+        rootInitialized = false;
+        hasSynthesizedRoot = false;
     }
 
     public FeatureModel getModel() {
@@ -46,29 +53,26 @@ public class AFMVisitorImpl extends AFMBaseVisitor<Constraint> {
         parentGroup.getFeatures().add(feature);
     }
 
-    // private Constraint visitSpecificExpression(ExpressionContext ctx) {
-    // if (ctx.getRuleContext().getClass() == ArithmeticExpContext.class) {
-    // return visitArithmeticExp((ArithmeticExpContext) ctx);
-    // } else if (ctx.getClass() == AndExpContext.class) {
+    private Feature addRootFeature(String name) {
+        Feature feature = new Feature(name);
+        featureModel.getFeatureMap().put(name, feature);
+        featureModel.setRootFeature(feature);
+        rootInitialized = true;
+        root = feature;
+        return feature;
+    }
 
-    // } else if (ctx.getClass() == ParenthesisExpContext.class) {
-    // return visitArithmeticExp(null);
-
-    // } else if (ctx.getClass() == OrExpContext.class) {
-    // return visitArithmeticExp(null);
-
-    // } else if (ctx.getClass() == LogicalExpContext.class) {
-    // return visitArithmeticExp(null);
-
-    // } else if (ctx.getClass() == AtomContext.class) {
-    // return visitArithmeticExp(null);
-
-    // } else if (ctx.getClass() == NotExpContext.class) {
-    // return visitArithmeticExp(null);
-
-    // }
-    // return null;
-    // }
+    private void addSynthesizedRoot() {
+        Feature feature = new Feature("Synthesized__Root");
+        Group rootGroup = new Group(GroupType.MANDATORY);
+        featureModel.getFeatureMap().put(feature.getFeatureName(), feature);
+        featureModel.setRootFeature(feature);
+        rootGroup.setParentFeature(feature);
+        rootGroup.getFeatures().add(root);
+        root = feature;
+        feature.addChildren(rootGroup);
+        hasSynthesizedRoot = true;
+    }
 
     @Override
     public Constraint visitRelationship_spec(Relationship_specContext ctx) {
@@ -77,8 +81,12 @@ public class AFMVisitorImpl extends AFMBaseVisitor<Constraint> {
         if (featureModel.getFeatureMap().containsKey(parentFeatureName)) {
             parentFeature = featureModel.getFeatureMap().get(parentFeatureName);
         } else { // Should only happen if root feature
-            parentFeature = new Feature(ctx.init_spec().WORD().getText());
-            featureModel.setRootFeature(parentFeature);
+            if (!rootInitialized) {
+                parentFeature = addRootFeature(ctx.init_spec().WORD().getText());
+            } else if (!hasSynthesizedRoot) {
+                addSynthesizedRoot();
+            }
+            parentFeature = root;
         }
         Group optionalChildren = new Group(GroupType.OPTIONAL);
         Group mandatoryChildren = new Group(GroupType.MANDATORY);
@@ -105,7 +113,10 @@ public class AFMVisitorImpl extends AFMBaseVisitor<Constraint> {
             Group cardGroup;
             if (Integer.valueOf(lowerBound) == 1 && Integer.valueOf(upperBound) == 1) {
                 cardGroup = new Group(GroupType.ALTERNATIVE);
-            } else {
+            } else if (Integer.valueOf(lowerBound) == 1 && child.obligatory_spec().size() == Integer.valueOf(upperBound)) {
+                cardGroup = new Group(GroupType.OR);
+            }
+            else {
                 cardGroup = new Group(GroupType.GROUP_CARDINALITY);
                 cardGroup.setLowerBound(lowerBound);
                 cardGroup.setUpperBound(upperBound);
@@ -118,88 +129,10 @@ public class AFMVisitorImpl extends AFMBaseVisitor<Constraint> {
         return null;
     }
 
-    // @Override
-    // public Object visitAttribute_spec(Attribute_specContext ctx) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
-
-    // @Override
-    // public Object visitAttribute_name(Attribute_nameContext ctx) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
-
-    // @Override
-    // public Object visitAttribute_domain(Attribute_domainContext ctx) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
-
-    // @Override
-    // public Object visitDiscrete_domain_spec(Discrete_domain_specContext ctx) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
-
-    // @Override
-    // public Object visitRange_domain_spec(Range_domain_specContext ctx) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
-
-    // @Override
-    // public Object visitDomain_range(Domain_rangeContext ctx) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
-
-    // @Override
-    // public Object visitAttribute_default_value(Attribute_default_valueContext
-    // ctx) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
-
-    // @Override
-    // public Object visitAttribute_null_value(Attribute_null_valueContext ctx) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
-
-    // @Override
-    // public Object visitValue_spec(Value_specContext ctx) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
-
-    // @Override
-    // public Object visitConstraints_block(Constraints_blockContext ctx) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
-
-    // @Override
-    // public Constraint visitConstraint_spec(Constraint_specContext ctx) {
-    // if (ctx.brackets_spec() != null && !ctx.brackets_spec().isEmpty()) {
-    // // TODO Handling
-    // }
-    // if (ctx.simple_spec() != null && !ctx.brackets_spec().isEmpty()) {
-    // visitChildren(ctx);
-    // }
-
-    // return null;
-    // }
-
-    // @Override
-    // public Object visitBrackets_spec(Brackets_specContext ctx) {
-    // // TODO Auto-generated method stub
-    // return null;
-    // }
-
     @Override
     public Constraint visitSimple_spec(Simple_specContext ctx) {
         Constraint constraint = ctx.expression().accept(this);
+        if (constraint == null) return null;
         for (String containedFeature : getContainedFeatures(constraint)) {
             if (!featureModel.getFeatureMap().containsKey(containedFeature)) {
                 System.out.println("Skipped Constraint: " + constraint.toString());
@@ -230,12 +163,19 @@ public class AFMVisitorImpl extends AFMBaseVisitor<Constraint> {
 
     @Override
     public Constraint visitAndExp(AndExpContext ctx) {
-        return new AndConstraint(ctx.expression(0).accept(this), ctx.expression(1).accept(this));
+        Constraint left = ctx.expression(0).accept(this);
+        Constraint right = ctx.expression(1).accept(this);
+        if (left == null || right == null) {
+            return null;
+        } 
+        return new AndConstraint(left, right);
     }
 
     @Override
     public Constraint visitParenthesisExp(ParenthesisExpContext ctx) {
-        return new ParenthesisConstraint(ctx.expression().accept(this));
+        Constraint constraint = ctx.expression().accept(this);
+        if (constraint == null) return null;
+        return new ParenthesisConstraint(constraint);
     }
 
     @Override
@@ -246,7 +186,12 @@ public class AFMVisitorImpl extends AFMBaseVisitor<Constraint> {
 
     @Override
     public Constraint visitOrExp(OrExpContext ctx) {
-        return new OrConstraint(ctx.expression(0).accept(this), ctx.expression(1).accept(this));
+        Constraint left = ctx.expression(0).accept(this);
+        Constraint right = ctx.expression(1).accept(this);
+        if (left == null || right == null) {
+            return null;
+        } 
+        return new OrConstraint(left, right);
     }
 
     @Override
@@ -266,6 +211,7 @@ public class AFMVisitorImpl extends AFMBaseVisitor<Constraint> {
     public Constraint visitLogicalExp(LogicalExpContext ctx) {
         Constraint left = ctx.expression(0).accept(this);
         Constraint right = ctx.expression(1).accept(this);
+        if (left == null || right == null) return null;
         if (ctx.logical_operator().EXCLUDES() != null) {
             return new ImplicationConstraint(left, new NotConstraint(right));
         } else if (ctx.logical_operator().IFF() != null) {
@@ -281,7 +227,16 @@ public class AFMVisitorImpl extends AFMBaseVisitor<Constraint> {
 
     @Override
     public Constraint visitNotExp(NotExpContext ctx) {
-        return new NotConstraint(ctx.expression().accept(this));
+        Constraint constraint = ctx.expression().accept(this);
+        if (constraint == null) {
+            return null;
+        }
+        return new NotConstraint(constraint);
+    }
+
+    @Override
+    public Constraint visitERROR(AFMParser.ERRORContext ctx) {
+        return null;
     }
 
     // @Override
