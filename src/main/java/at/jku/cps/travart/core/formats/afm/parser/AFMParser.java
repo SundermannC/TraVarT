@@ -33,9 +33,9 @@ public class AFMParser extends Parser {
 		RULE_discrete_domain_spec = 13, RULE_range_domain_spec = 14, RULE_domain_range = 15, 
 		RULE_attribute_default_value = 16, RULE_attribute_null_value = 17, RULE_value_spec = 18, 
 		RULE_constraints_block = 19, RULE_constraint_spec = 20, RULE_brackets_spec = 21, 
-		RULE_simple_spec = 22, RULE_expression = 23, RULE_logical_operator = 24, 
-		RULE_arithmetic_operator = 25, RULE_relational_operator = 26, RULE_number = 27, 
-		RULE_variable = 28;
+		RULE_simple_spec = 22, RULE_expression = 23, RULE_error_expression = 24, 
+		RULE_logical_operator = 25, RULE_arithmetic_operator = 26, RULE_relational_operator = 27, 
+		RULE_number = 28, RULE_variable = 29;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"feature_model", "relationships_block", "relationship_spec", "init_spec", 
@@ -43,8 +43,8 @@ public class AFMParser extends Parser {
 			"attributes_block", "attribute_spec", "attribute_name", "attribute_domain", 
 			"discrete_domain_spec", "range_domain_spec", "domain_range", "attribute_default_value", 
 			"attribute_null_value", "value_spec", "constraints_block", "constraint_spec", 
-			"brackets_spec", "simple_spec", "expression", "logical_operator", "arithmetic_operator", 
-			"relational_operator", "number", "variable"
+			"brackets_spec", "simple_spec", "expression", "error_expression", "logical_operator", 
+			"arithmetic_operator", "relational_operator", "number", "variable"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -135,6 +135,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_feature_model; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterFeature_model(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitFeature_model(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitFeature_model(this);
 			else return visitor.visitChildren(this);
@@ -148,24 +156,24 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(58);
-			relationships_block();
 			setState(60);
+			relationships_block();
+			setState(62);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__8) {
 				{
-				setState(59);
+				setState(61);
 				attributes_block();
 				}
 			}
 
-			setState(63);
+			setState(65);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==T__11) {
 				{
-				setState(62);
+				setState(64);
 				constraints_block();
 				}
 			}
@@ -195,6 +203,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_relationships_block; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterRelationships_block(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitRelationships_block(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitRelationships_block(this);
 			else return visitor.visitChildren(this);
@@ -208,19 +224,19 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(65);
+			setState(67);
 			match(T__0);
-			setState(69);
+			setState(71);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==WORD || _la==SPACE) {
 				{
 				{
-				setState(66);
+				setState(68);
 				relationship_spec();
 				}
 				}
-				setState(71);
+				setState(73);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -258,6 +274,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_relationship_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterRelationship_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitRelationship_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitRelationship_spec(this);
 			else return visitor.visitChildren(this);
@@ -271,35 +295,35 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(72);
+			setState(74);
 			init_spec();
-			setState(75); 
+			setState(77); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
-				setState(75);
+				setState(77);
 				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 				case 1:
 					{
-					setState(73);
+					setState(75);
 					non_cardinal_spec();
 					}
 					break;
 				case 2:
 					{
-					setState(74);
+					setState(76);
 					cardinal_spec();
 					}
 					break;
 				}
 				}
-				setState(77); 
+				setState(79); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__3) | (1L << WORD) | (1L << SPACE))) != 0) );
-			setState(79);
+			setState(81);
 			match(T__1);
 			}
 		}
@@ -325,6 +349,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_init_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterInit_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitInit_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitInit_spec(this);
 			else return visitor.visitChildren(this);
@@ -338,36 +370,36 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(82);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==SPACE) {
-				{
-				setState(81);
-				match(SPACE);
-				}
-			}
-
 			setState(84);
-			match(WORD);
-			setState(86);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SPACE) {
 				{
-				setState(85);
+				setState(83);
 				match(SPACE);
 				}
 			}
 
+			setState(86);
+			match(WORD);
 			setState(88);
-			match(T__2);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==SPACE) {
+				{
+				setState(87);
+				match(SPACE);
+				}
+			}
+
 			setState(90);
+			match(T__2);
+			setState(92);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 			case 1:
 				{
-				setState(89);
+				setState(91);
 				match(SPACE);
 				}
 				break;
@@ -395,6 +427,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_cardinality; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterCardinality(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitCardinality(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitCardinality(this);
 			else return visitor.visitChildren(this);
@@ -407,15 +447,15 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(92);
-			match(T__3);
-			setState(93);
-			match(INT);
 			setState(94);
-			match(T__4);
+			match(T__3);
 			setState(95);
 			match(INT);
 			setState(96);
+			match(T__4);
+			setState(97);
+			match(INT);
+			setState(98);
 			match(T__5);
 			}
 		}
@@ -449,6 +489,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_cardinal_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterCardinal_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitCardinal_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitCardinal_spec(this);
 			else return visitor.visitChildren(this);
@@ -462,45 +510,45 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(99);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==SPACE) {
-				{
-				setState(98);
-				match(SPACE);
-				}
-			}
-
 			setState(101);
-			cardinality();
-			setState(103);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SPACE) {
 				{
-				setState(102);
+				setState(100);
 				match(SPACE);
 				}
 			}
 
+			setState(103);
+			cardinality();
 			setState(105);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==SPACE) {
+				{
+				setState(104);
+				match(SPACE);
+				}
+			}
+
+			setState(107);
 			match(T__6);
-			setState(107); 
+			setState(109); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(106);
+				setState(108);
 				obligatory_spec();
 				}
 				}
-				setState(109); 
+				setState(111); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==WORD || _la==SPACE );
-			setState(111);
+			setState(113);
 			match(T__7);
 			}
 		}
@@ -526,6 +574,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_obligatory_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterObligatory_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitObligatory_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitObligatory_spec(this);
 			else return visitor.visitChildren(this);
@@ -539,24 +595,24 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(114);
+			setState(116);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SPACE) {
 				{
-				setState(113);
+				setState(115);
 				match(SPACE);
 				}
 			}
 
-			setState(116);
-			match(WORD);
 			setState(118);
+			match(WORD);
+			setState(120);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
 			case 1:
 				{
-				setState(117);
+				setState(119);
 				match(SPACE);
 				}
 				break;
@@ -585,6 +641,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_optional_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterOptional_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitOptional_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitOptional_spec(this);
 			else return visitor.visitChildren(this);
@@ -598,28 +662,28 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(121);
+			setState(123);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SPACE) {
 				{
-				setState(120);
+				setState(122);
 				match(SPACE);
 				}
 			}
 
-			setState(123);
-			match(T__3);
-			setState(124);
-			match(WORD);
 			setState(125);
-			match(T__5);
+			match(T__3);
+			setState(126);
+			match(WORD);
 			setState(127);
+			match(T__5);
+			setState(129);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
 			case 1:
 				{
-				setState(126);
+				setState(128);
 				match(SPACE);
 				}
 				break;
@@ -649,6 +713,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_non_cardinal_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterNon_cardinal_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitNon_cardinal_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitNon_cardinal_spec(this);
 			else return visitor.visitChildren(this);
@@ -661,18 +733,18 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(131);
+			setState(133);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
 			case 1:
 				{
-				setState(129);
+				setState(131);
 				obligatory_spec();
 				}
 				break;
 			case 2:
 				{
-				setState(130);
+				setState(132);
 				optional_spec();
 				}
 				break;
@@ -702,6 +774,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_attributes_block; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterAttributes_block(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitAttributes_block(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitAttributes_block(this);
 			else return visitor.visitChildren(this);
@@ -715,19 +795,19 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(133);
+			setState(135);
 			match(T__8);
-			setState(137);
+			setState(139);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==WORD) {
 				{
 				{
-				setState(134);
+				setState(136);
 				attribute_spec();
 				}
 				}
-				setState(139);
+				setState(141);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -766,6 +846,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_attribute_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterAttribute_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitAttribute_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitAttribute_spec(this);
 			else return visitor.visitChildren(this);
@@ -779,81 +867,81 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(140);
-			attribute_name();
 			setState(142);
+			attribute_name();
+			setState(144);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SPACE) {
 				{
-				setState(141);
+				setState(143);
 				match(SPACE);
 				}
 			}
 
-			setState(144);
-			match(T__2);
 			setState(146);
+			match(T__2);
+			setState(148);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
 			case 1:
 				{
-				setState(145);
+				setState(147);
 				match(SPACE);
 				}
 				break;
 			}
-			setState(148);
-			attribute_domain();
 			setState(150);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==SPACE) {
-				{
-				setState(149);
-				match(SPACE);
-				}
-			}
-
+			attribute_domain();
 			setState(152);
-			match(T__4);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==SPACE) {
+				{
+				setState(151);
+				match(SPACE);
+				}
+			}
+
 			setState(154);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==SPACE) {
-				{
-				setState(153);
-				match(SPACE);
-				}
-			}
-
-			setState(156);
-			attribute_default_value();
-			setState(158);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==SPACE) {
-				{
-				setState(157);
-				match(SPACE);
-				}
-			}
-
-			setState(160);
 			match(T__4);
-			setState(162);
+			setState(156);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SPACE) {
 				{
-				setState(161);
+				setState(155);
 				match(SPACE);
 				}
 			}
 
+			setState(158);
+			attribute_default_value();
+			setState(160);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==SPACE) {
+				{
+				setState(159);
+				match(SPACE);
+				}
+			}
+
+			setState(162);
+			match(T__4);
 			setState(164);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==SPACE) {
+				{
+				setState(163);
+				match(SPACE);
+				}
+			}
+
+			setState(166);
 			attribute_null_value();
-			setState(165);
+			setState(167);
 			match(T__1);
 			}
 		}
@@ -878,6 +966,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_attribute_name; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterAttribute_name(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitAttribute_name(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitAttribute_name(this);
 			else return visitor.visitChildren(this);
@@ -890,11 +986,11 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(167);
-			match(WORD);
-			setState(168);
-			match(T__9);
 			setState(169);
+			match(WORD);
+			setState(170);
+			match(T__9);
+			setState(171);
 			match(WORD);
 			}
 		}
@@ -921,6 +1017,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_attribute_domain; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterAttribute_domain(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitAttribute_domain(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitAttribute_domain(this);
 			else return visitor.visitChildren(this);
@@ -933,19 +1037,19 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(173);
+			setState(175);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__3:
 				{
-				setState(171);
+				setState(173);
 				discrete_domain_spec();
 				}
 				break;
 			case INTEGER:
 			case SPACE:
 				{
-				setState(172);
+				setState(174);
 				range_domain_spec();
 				}
 				break;
@@ -977,6 +1081,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_discrete_domain_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterDiscrete_domain_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitDiscrete_domain_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitDiscrete_domain_spec(this);
 			else return visitor.visitChildren(this);
@@ -990,27 +1102,27 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(175);
+			setState(177);
 			match(T__3);
-			setState(176);
+			setState(178);
 			value_spec();
-			setState(181);
+			setState(183);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__4) {
 				{
 				{
-				setState(177);
+				setState(179);
 				match(T__4);
-				setState(178);
+				setState(180);
 				value_spec();
 				}
 				}
-				setState(183);
+				setState(185);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(184);
+			setState(186);
 			match(T__5);
 			}
 		}
@@ -1042,6 +1154,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_range_domain_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterRange_domain_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitRange_domain_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitRange_domain_spec(this);
 			else return visitor.visitChildren(this);
@@ -1055,39 +1175,39 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(187);
+			setState(189);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SPACE) {
 				{
-				setState(186);
+				setState(188);
 				match(SPACE);
 				}
 			}
 
-			setState(189);
-			match(INTEGER);
 			setState(191);
+			match(INTEGER);
+			setState(193);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,26,_ctx) ) {
 			case 1:
 				{
-				setState(190);
+				setState(192);
 				match(SPACE);
 				}
 				break;
 			}
-			setState(196);
+			setState(198);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__3) {
 				{
 				{
-				setState(193);
+				setState(195);
 				domain_range();
 				}
 				}
-				setState(198);
+				setState(200);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1118,6 +1238,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_domain_range; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterDomain_range(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitDomain_range(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitDomain_range(this);
 			else return visitor.visitChildren(this);
@@ -1131,35 +1259,35 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(199);
+			setState(201);
 			match(T__3);
-			setState(200);
-			match(INT);
 			setState(202);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==SPACE) {
-				{
-				setState(201);
-				match(SPACE);
-				}
-			}
-
-			setState(204);
-			match(T__10);
-			setState(206);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==SPACE) {
-				{
-				setState(205);
-				match(SPACE);
-				}
-			}
-
-			setState(208);
 			match(INT);
-			setState(209);
+			setState(204);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==SPACE) {
+				{
+				setState(203);
+				match(SPACE);
+				}
+			}
+
+			setState(206);
+			match(T__10);
+			setState(208);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==SPACE) {
+				{
+				setState(207);
+				match(SPACE);
+				}
+			}
+
+			setState(210);
+			match(INT);
+			setState(211);
 			match(T__5);
 			}
 		}
@@ -1183,6 +1311,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_attribute_default_value; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterAttribute_default_value(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitAttribute_default_value(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitAttribute_default_value(this);
 			else return visitor.visitChildren(this);
@@ -1195,7 +1331,7 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(211);
+			setState(213);
 			value_spec();
 			}
 		}
@@ -1219,6 +1355,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_attribute_null_value; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterAttribute_null_value(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitAttribute_null_value(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitAttribute_null_value(this);
 			else return visitor.visitChildren(this);
@@ -1231,7 +1375,7 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(213);
+			setState(215);
 			value_spec();
 			}
 		}
@@ -1256,6 +1400,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_value_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterValue_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitValue_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitValue_spec(this);
 			else return visitor.visitChildren(this);
@@ -1269,7 +1421,7 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(215);
+			setState(217);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << WORD) | (1L << INT) | (1L << DOUBLE) | (1L << STRING))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -1304,6 +1456,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_constraints_block; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterConstraints_block(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitConstraints_block(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitConstraints_block(this);
 			else return visitor.visitChildren(this);
@@ -1313,25 +1473,27 @@ public class AFMParser extends Parser {
 	public final Constraints_blockContext constraints_block() throws RecognitionException {
 		Constraints_blockContext _localctx = new Constraints_blockContext(_ctx, getState());
 		enterRule(_localctx, 38, RULE_constraints_block);
-		int _la;
 		try {
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(217);
+			setState(219);
 			match(T__11);
-			setState(221);
+			setState(223);
 			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__12) | (1L << NOT) | (1L << WORD) | (1L << INT) | (1L << DOUBLE) | (1L << SPACE))) != 0)) {
-				{
-				{
-				setState(218);
-				constraint_spec();
+			_alt = getInterpreter().adaptivePredict(_input,30,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(220);
+					constraint_spec();
+					}
+					} 
 				}
-				}
-				setState(223);
+				setState(225);
 				_errHandler.sync(this);
-				_la = _input.LA(1);
+				_alt = getInterpreter().adaptivePredict(_input,30,_ctx);
 			}
 			}
 		}
@@ -1358,6 +1520,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_constraint_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterConstraint_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitConstraint_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitConstraint_spec(this);
 			else return visitor.visitChildren(this);
@@ -1368,20 +1538,20 @@ public class AFMParser extends Parser {
 		Constraint_specContext _localctx = new Constraint_specContext(_ctx, getState());
 		enterRule(_localctx, 40, RULE_constraint_spec);
 		try {
-			setState(226);
+			setState(228);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,31,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(224);
+				setState(226);
 				brackets_spec();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(225);
+				setState(227);
 				simple_spec();
 				}
 				break;
@@ -1415,6 +1585,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_brackets_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterBrackets_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitBrackets_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitBrackets_spec(this);
 			else return visitor.visitChildren(this);
@@ -1429,74 +1607,74 @@ public class AFMParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(229);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			if (_la==SPACE) {
-				{
-				setState(228);
-				match(SPACE);
-				}
-			}
-
 			setState(231);
-			match(WORD);
-			setState(233);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SPACE) {
 				{
-				setState(232);
+				setState(230);
 				match(SPACE);
 				}
 			}
 
+			setState(233);
+			match(WORD);
 			setState(235);
-			match(T__6);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==SPACE) {
+				{
+				setState(234);
+				match(SPACE);
+				}
+			}
+
 			setState(237);
+			match(T__6);
+			setState(239);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,34,_ctx) ) {
 			case 1:
 				{
-				setState(236);
+				setState(238);
 				match(SPACE);
 				}
 				break;
 			}
-			setState(242);
+			setState(244);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,35,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(239);
+					setState(241);
 					simple_spec();
 					}
 					} 
 				}
-				setState(244);
+				setState(246);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,35,_ctx);
 			}
-			setState(246);
+			setState(248);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SPACE) {
 				{
-				setState(245);
+				setState(247);
 				match(SPACE);
 				}
 			}
 
-			setState(248);
-			match(T__7);
 			setState(250);
+			match(T__7);
+			setState(252);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,37,_ctx) ) {
 			case 1:
 				{
-				setState(249);
+				setState(251);
 				match(SPACE);
 				}
 				break;
@@ -1527,6 +1705,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_simple_spec; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterSimple_spec(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitSimple_spec(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitSimple_spec(this);
 			else return visitor.visitChildren(this);
@@ -1540,36 +1726,36 @@ public class AFMParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(253);
+			setState(255);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,38,_ctx) ) {
 			case 1:
 				{
-				setState(252);
+				setState(254);
 				match(SPACE);
 				}
 				break;
 			}
-			setState(255);
-			expression(0);
 			setState(257);
+			expression(0);
+			setState(259);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==SPACE) {
 				{
-				setState(256);
+				setState(258);
 				match(SPACE);
 				}
 			}
 
-			setState(259);
-			match(T__1);
 			setState(261);
+			match(T__1);
+			setState(263);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,40,_ctx) ) {
 			case 1:
 				{
-				setState(260);
+				setState(262);
 				match(SPACE);
 				}
 				break;
@@ -1614,6 +1800,14 @@ public class AFMParser extends Parser {
 		}
 		public ArithmeticExpContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterArithmeticExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitArithmeticExp(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitArithmeticExp(this);
 			else return visitor.visitChildren(this);
@@ -1633,6 +1827,14 @@ public class AFMParser extends Parser {
 		}
 		public AndExpContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterAndExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitAndExp(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitAndExp(this);
 			else return visitor.visitChildren(this);
@@ -1648,8 +1850,35 @@ public class AFMParser extends Parser {
 		}
 		public ParenthesisExpContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterParenthesisExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitParenthesisExp(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitParenthesisExp(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ERRORContext extends ExpressionContext {
+		public Error_expressionContext error_expression() {
+			return getRuleContext(Error_expressionContext.class,0);
+		}
+		public ERRORContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterERROR(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitERROR(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitERROR(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1668,6 +1897,14 @@ public class AFMParser extends Parser {
 			return getToken(AFMParser.SPACE, i);
 		}
 		public RelationalExpContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterRelationalExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitRelationalExp(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitRelationalExp(this);
@@ -1688,6 +1925,14 @@ public class AFMParser extends Parser {
 		}
 		public OrExpContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterOrExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitOrExp(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitOrExp(this);
 			else return visitor.visitChildren(this);
@@ -1705,6 +1950,14 @@ public class AFMParser extends Parser {
 			return getToken(AFMParser.SPACE, i);
 		}
 		public AtomContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterAtom(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitAtom(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitAtom(this);
@@ -1727,6 +1980,14 @@ public class AFMParser extends Parser {
 		}
 		public LogicalExpContext(ExpressionContext ctx) { copyFrom(ctx); }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterLogicalExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitLogicalExp(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitLogicalExp(this);
 			else return visitor.visitChildren(this);
@@ -1742,6 +2003,14 @@ public class AFMParser extends Parser {
 			return getToken(AFMParser.SPACE, i);
 		}
 		public NotExpContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterNotExp(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitNotExp(this);
+		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitNotExp(this);
@@ -1765,7 +2034,7 @@ public class AFMParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(297);
+			setState(300);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,50,_ctx) ) {
 			case 1:
@@ -1774,48 +2043,48 @@ public class AFMParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(265);
+				setState(267);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==SPACE) {
 					{
-					setState(264);
+					setState(266);
 					match(SPACE);
 					}
 				}
 
-				setState(267);
-				match(T__12);
 				setState(269);
+				match(T__12);
+				setState(271);
 				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,42,_ctx) ) {
 				case 1:
 					{
-					setState(268);
+					setState(270);
 					match(SPACE);
 					}
 					break;
 				}
-				setState(271);
-				expression(0);
 				setState(273);
+				expression(0);
+				setState(275);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==SPACE) {
 					{
-					setState(272);
+					setState(274);
 					match(SPACE);
 					}
 				}
 
-				setState(275);
-				match(T__13);
 				setState(277);
+				match(T__13);
+				setState(279);
 				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,44,_ctx) ) {
 				case 1:
 					{
-					setState(276);
+					setState(278);
 					match(SPACE);
 					}
 					break;
@@ -1827,30 +2096,30 @@ public class AFMParser extends Parser {
 				_localctx = new NotExpContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(280);
+				setState(282);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==SPACE) {
 					{
-					setState(279);
+					setState(281);
 					match(SPACE);
 					}
 				}
 
-				setState(282);
-				match(NOT);
 				setState(284);
+				match(NOT);
+				setState(286);
 				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,46,_ctx) ) {
 				case 1:
 					{
-					setState(283);
+					setState(285);
 					match(SPACE);
 					}
 					break;
 				}
-				setState(286);
-				expression(7);
+				setState(288);
+				expression(8);
 				}
 				break;
 			case 3:
@@ -1858,50 +2127,59 @@ public class AFMParser extends Parser {
 				_localctx = new AtomContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(288);
+				setState(290);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==SPACE) {
 					{
-					setState(287);
+					setState(289);
 					match(SPACE);
 					}
 				}
 
-				setState(292);
+				setState(294);
 				_errHandler.sync(this);
 				switch (_input.LA(1)) {
 				case WORD:
 					{
-					setState(290);
+					setState(292);
 					variable();
 					}
 					break;
 				case INT:
 				case DOUBLE:
 					{
-					setState(291);
+					setState(293);
 					number();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
-				setState(295);
+				setState(297);
 				_errHandler.sync(this);
 				switch ( getInterpreter().adaptivePredict(_input,49,_ctx) ) {
 				case 1:
 					{
-					setState(294);
+					setState(296);
 					match(SPACE);
 					}
 					break;
 				}
 				}
 				break;
+			case 4:
+				{
+				_localctx = new ERRORContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(299);
+				error_expression();
+				}
+				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(349);
+			setState(352);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,62,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -1909,173 +2187,173 @@ public class AFMParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(347);
+					setState(350);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,61,_ctx) ) {
 					case 1:
 						{
 						_localctx = new ArithmeticExpContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(299);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
-						setState(301);
+						setState(302);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(304);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 						if (_la==SPACE) {
 							{
-							setState(300);
+							setState(303);
 							match(SPACE);
 							}
 						}
 
-						setState(303);
+						setState(306);
 						arithmetic_operator();
-						setState(305);
+						setState(308);
 						_errHandler.sync(this);
 						switch ( getInterpreter().adaptivePredict(_input,52,_ctx) ) {
 						case 1:
 							{
-							setState(304);
+							setState(307);
 							match(SPACE);
 							}
 							break;
 						}
-						setState(307);
-						expression(7);
+						setState(310);
+						expression(8);
 						}
 						break;
 					case 2:
 						{
 						_localctx = new RelationalExpContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(309);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(311);
+						setState(312);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(314);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 						if (_la==SPACE) {
 							{
-							setState(310);
+							setState(313);
 							match(SPACE);
 							}
 						}
 
-						setState(313);
+						setState(316);
 						relational_operator();
-						setState(315);
+						setState(318);
 						_errHandler.sync(this);
 						switch ( getInterpreter().adaptivePredict(_input,54,_ctx) ) {
 						case 1:
 							{
-							setState(314);
+							setState(317);
 							match(SPACE);
 							}
 							break;
 						}
-						setState(317);
-						expression(6);
+						setState(320);
+						expression(7);
 						}
 						break;
 					case 3:
 						{
 						_localctx = new AndExpContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(319);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(321);
+						setState(322);
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						setState(324);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 						if (_la==SPACE) {
 							{
-							setState(320);
+							setState(323);
 							match(SPACE);
 							}
 						}
 
-						setState(323);
+						setState(326);
 						match(AND);
-						setState(325);
+						setState(328);
 						_errHandler.sync(this);
 						switch ( getInterpreter().adaptivePredict(_input,56,_ctx) ) {
 						case 1:
 							{
-							setState(324);
+							setState(327);
 							match(SPACE);
 							}
 							break;
 						}
-						setState(327);
-						expression(5);
+						setState(330);
+						expression(6);
 						}
 						break;
 					case 4:
 						{
 						_localctx = new OrExpContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(328);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(330);
+						setState(331);
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
+						setState(333);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 						if (_la==SPACE) {
 							{
-							setState(329);
+							setState(332);
 							match(SPACE);
 							}
 						}
 
-						setState(332);
+						setState(335);
 						match(OR);
-						setState(334);
+						setState(337);
 						_errHandler.sync(this);
 						switch ( getInterpreter().adaptivePredict(_input,58,_ctx) ) {
 						case 1:
 							{
-							setState(333);
+							setState(336);
 							match(SPACE);
 							}
 							break;
 						}
-						setState(336);
-						expression(4);
+						setState(339);
+						expression(5);
 						}
 						break;
 					case 5:
 						{
 						_localctx = new LogicalExpContext(new ExpressionContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(337);
-						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(339);
+						setState(340);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(342);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 						if (_la==SPACE) {
 							{
-							setState(338);
+							setState(341);
 							match(SPACE);
 							}
 						}
 
-						setState(341);
+						setState(344);
 						logical_operator();
-						setState(343);
+						setState(346);
 						_errHandler.sync(this);
 						switch ( getInterpreter().adaptivePredict(_input,60,_ctx) ) {
 						case 1:
 							{
-							setState(342);
+							setState(345);
 							match(SPACE);
 							}
 							break;
 						}
-						setState(345);
-						expression(3);
+						setState(348);
+						expression(4);
 						}
 						break;
 					}
 					} 
 				}
-				setState(351);
+				setState(354);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,62,_ctx);
 			}
@@ -2092,6 +2370,151 @@ public class AFMParser extends Parser {
 		return _localctx;
 	}
 
+	public static class Error_expressionContext extends ParserRuleContext {
+		public List<Logical_operatorContext> logical_operator() {
+			return getRuleContexts(Logical_operatorContext.class);
+		}
+		public Logical_operatorContext logical_operator(int i) {
+			return getRuleContext(Logical_operatorContext.class,i);
+		}
+		public List<Arithmetic_operatorContext> arithmetic_operator() {
+			return getRuleContexts(Arithmetic_operatorContext.class);
+		}
+		public Arithmetic_operatorContext arithmetic_operator(int i) {
+			return getRuleContext(Arithmetic_operatorContext.class,i);
+		}
+		public List<Relational_operatorContext> relational_operator() {
+			return getRuleContexts(Relational_operatorContext.class);
+		}
+		public Relational_operatorContext relational_operator(int i) {
+			return getRuleContext(Relational_operatorContext.class,i);
+		}
+		public List<NumberContext> number() {
+			return getRuleContexts(NumberContext.class);
+		}
+		public NumberContext number(int i) {
+			return getRuleContext(NumberContext.class,i);
+		}
+		public List<VariableContext> variable() {
+			return getRuleContexts(VariableContext.class);
+		}
+		public VariableContext variable(int i) {
+			return getRuleContext(VariableContext.class,i);
+		}
+		public Error_expressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_error_expression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterError_expression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitError_expression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitError_expression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final Error_expressionContext error_expression() throws RecognitionException {
+		Error_expressionContext _localctx = new Error_expressionContext(_ctx, getState());
+		enterRule(_localctx, 48, RULE_error_expression);
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(364);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,64,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					setState(362);
+					_errHandler.sync(this);
+					switch (_input.LA(1)) {
+					case IFF:
+					case IMPLIES:
+					case REQUIRES:
+					case EXCLUDES:
+						{
+						setState(355);
+						logical_operator();
+						}
+						break;
+					case ADD:
+					case SUB:
+					case MULT:
+					case DIV:
+					case MOD:
+					case POW:
+					case ASIG:
+						{
+						setState(356);
+						arithmetic_operator();
+						}
+						break;
+					case HIGHER_THAN:
+					case LOWER_THAN:
+					case HIGHER_EQUAL_THAN:
+					case LOWER_EQUAL_THAN:
+					case EQUAL:
+					case DISTINCT:
+						{
+						setState(357);
+						relational_operator();
+						}
+						break;
+					case INT:
+					case DOUBLE:
+						{
+						setState(358);
+						number();
+						}
+						break;
+					case WORD:
+						{
+						setState(359);
+						variable();
+						}
+						break;
+					case T__12:
+						{
+						setState(360);
+						match(T__12);
+						}
+						break;
+					case T__13:
+						{
+						setState(361);
+						match(T__13);
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					} 
+				}
+				setState(366);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,64,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class Logical_operatorContext extends ParserRuleContext {
 		public TerminalNode IFF() { return getToken(AFMParser.IFF, 0); }
 		public TerminalNode IMPLIES() { return getToken(AFMParser.IMPLIES, 0); }
@@ -2102,6 +2525,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_logical_operator; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterLogical_operator(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitLogical_operator(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitLogical_operator(this);
 			else return visitor.visitChildren(this);
@@ -2110,12 +2541,12 @@ public class AFMParser extends Parser {
 
 	public final Logical_operatorContext logical_operator() throws RecognitionException {
 		Logical_operatorContext _localctx = new Logical_operatorContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_logical_operator);
+		enterRule(_localctx, 50, RULE_logical_operator);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(352);
+			setState(367);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IFF) | (1L << IMPLIES) | (1L << REQUIRES) | (1L << EXCLUDES))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -2151,6 +2582,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_arithmetic_operator; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterArithmetic_operator(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitArithmetic_operator(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitArithmetic_operator(this);
 			else return visitor.visitChildren(this);
@@ -2159,12 +2598,12 @@ public class AFMParser extends Parser {
 
 	public final Arithmetic_operatorContext arithmetic_operator() throws RecognitionException {
 		Arithmetic_operatorContext _localctx = new Arithmetic_operatorContext(_ctx, getState());
-		enterRule(_localctx, 50, RULE_arithmetic_operator);
+		enterRule(_localctx, 52, RULE_arithmetic_operator);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(354);
+			setState(369);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ADD) | (1L << SUB) | (1L << MULT) | (1L << DIV) | (1L << MOD) | (1L << POW) | (1L << ASIG))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -2199,6 +2638,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_relational_operator; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterRelational_operator(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitRelational_operator(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitRelational_operator(this);
 			else return visitor.visitChildren(this);
@@ -2207,12 +2654,12 @@ public class AFMParser extends Parser {
 
 	public final Relational_operatorContext relational_operator() throws RecognitionException {
 		Relational_operatorContext _localctx = new Relational_operatorContext(_ctx, getState());
-		enterRule(_localctx, 52, RULE_relational_operator);
+		enterRule(_localctx, 54, RULE_relational_operator);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(356);
+			setState(371);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << HIGHER_THAN) | (1L << LOWER_THAN) | (1L << HIGHER_EQUAL_THAN) | (1L << LOWER_EQUAL_THAN) | (1L << EQUAL) | (1L << DISTINCT))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -2243,6 +2690,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_number; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterNumber(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitNumber(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitNumber(this);
 			else return visitor.visitChildren(this);
@@ -2251,12 +2706,12 @@ public class AFMParser extends Parser {
 
 	public final NumberContext number() throws RecognitionException {
 		NumberContext _localctx = new NumberContext(_ctx, getState());
-		enterRule(_localctx, 54, RULE_number);
+		enterRule(_localctx, 56, RULE_number);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(358);
+			setState(373);
 			_la = _input.LA(1);
 			if ( !(_la==INT || _la==DOUBLE) ) {
 			_errHandler.recoverInline(this);
@@ -2289,6 +2744,14 @@ public class AFMParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_variable; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).enterVariable(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof AFMListener ) ((AFMListener)listener).exitVariable(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof AFMVisitor ) return ((AFMVisitor<? extends T>)visitor).visitVariable(this);
 			else return visitor.visitChildren(this);
@@ -2297,24 +2760,24 @@ public class AFMParser extends Parser {
 
 	public final VariableContext variable() throws RecognitionException {
 		VariableContext _localctx = new VariableContext(_ctx, getState());
-		enterRule(_localctx, 56, RULE_variable);
+		enterRule(_localctx, 58, RULE_variable);
 		try {
-			setState(366);
+			setState(381);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,64,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,66,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(360);
+				setState(375);
 				match(WORD);
-				setState(363);
+				setState(378);
 				_errHandler.sync(this);
-				switch ( getInterpreter().adaptivePredict(_input,63,_ctx) ) {
+				switch ( getInterpreter().adaptivePredict(_input,65,_ctx) ) {
 				case 1:
 					{
-					setState(361);
+					setState(376);
 					match(T__9);
-					setState(362);
+					setState(377);
 					match(WORD);
 					}
 					break;
@@ -2324,7 +2787,7 @@ public class AFMParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(365);
+				setState(380);
 				match(WORD);
 				}
 				break;
@@ -2351,159 +2814,167 @@ public class AFMParser extends Parser {
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 6);
+			return precpred(_ctx, 7);
 		case 1:
-			return precpred(_ctx, 5);
+			return precpred(_ctx, 6);
 		case 2:
-			return precpred(_ctx, 4);
+			return precpred(_ctx, 5);
 		case 3:
-			return precpred(_ctx, 3);
+			return precpred(_ctx, 4);
 		case 4:
-			return precpred(_ctx, 2);
+			return precpred(_ctx, 3);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\61\u0173\4\2\t\2"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\61\u0182\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
-		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\3\2\3\2\5\2?\n\2\3"+
-		"\2\5\2B\n\2\3\3\3\3\7\3F\n\3\f\3\16\3I\13\3\3\4\3\4\3\4\6\4N\n\4\r\4\16"+
-		"\4O\3\4\3\4\3\5\5\5U\n\5\3\5\3\5\5\5Y\n\5\3\5\3\5\5\5]\n\5\3\6\3\6\3\6"+
-		"\3\6\3\6\3\6\3\7\5\7f\n\7\3\7\3\7\5\7j\n\7\3\7\3\7\6\7n\n\7\r\7\16\7o"+
-		"\3\7\3\7\3\b\5\bu\n\b\3\b\3\b\5\by\n\b\3\t\5\t|\n\t\3\t\3\t\3\t\3\t\5"+
-		"\t\u0082\n\t\3\n\3\n\5\n\u0086\n\n\3\13\3\13\7\13\u008a\n\13\f\13\16\13"+
-		"\u008d\13\13\3\f\3\f\5\f\u0091\n\f\3\f\3\f\5\f\u0095\n\f\3\f\3\f\5\f\u0099"+
-		"\n\f\3\f\3\f\5\f\u009d\n\f\3\f\3\f\5\f\u00a1\n\f\3\f\3\f\5\f\u00a5\n\f"+
-		"\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\16\3\16\5\16\u00b0\n\16\3\17\3\17\3\17"+
-		"\3\17\7\17\u00b6\n\17\f\17\16\17\u00b9\13\17\3\17\3\17\3\20\5\20\u00be"+
-		"\n\20\3\20\3\20\5\20\u00c2\n\20\3\20\7\20\u00c5\n\20\f\20\16\20\u00c8"+
-		"\13\20\3\21\3\21\3\21\5\21\u00cd\n\21\3\21\3\21\5\21\u00d1\n\21\3\21\3"+
-		"\21\3\21\3\22\3\22\3\23\3\23\3\24\3\24\3\25\3\25\7\25\u00de\n\25\f\25"+
-		"\16\25\u00e1\13\25\3\26\3\26\5\26\u00e5\n\26\3\27\5\27\u00e8\n\27\3\27"+
-		"\3\27\5\27\u00ec\n\27\3\27\3\27\5\27\u00f0\n\27\3\27\7\27\u00f3\n\27\f"+
-		"\27\16\27\u00f6\13\27\3\27\5\27\u00f9\n\27\3\27\3\27\5\27\u00fd\n\27\3"+
-		"\30\5\30\u0100\n\30\3\30\3\30\5\30\u0104\n\30\3\30\3\30\5\30\u0108\n\30"+
-		"\3\31\3\31\5\31\u010c\n\31\3\31\3\31\5\31\u0110\n\31\3\31\3\31\5\31\u0114"+
-		"\n\31\3\31\3\31\5\31\u0118\n\31\3\31\5\31\u011b\n\31\3\31\3\31\5\31\u011f"+
-		"\n\31\3\31\3\31\5\31\u0123\n\31\3\31\3\31\5\31\u0127\n\31\3\31\5\31\u012a"+
-		"\n\31\5\31\u012c\n\31\3\31\3\31\5\31\u0130\n\31\3\31\3\31\5\31\u0134\n"+
-		"\31\3\31\3\31\3\31\3\31\5\31\u013a\n\31\3\31\3\31\5\31\u013e\n\31\3\31"+
-		"\3\31\3\31\3\31\5\31\u0144\n\31\3\31\3\31\5\31\u0148\n\31\3\31\3\31\3"+
-		"\31\5\31\u014d\n\31\3\31\3\31\5\31\u0151\n\31\3\31\3\31\3\31\5\31\u0156"+
-		"\n\31\3\31\3\31\5\31\u015a\n\31\3\31\3\31\7\31\u015e\n\31\f\31\16\31\u0161"+
-		"\13\31\3\32\3\32\3\33\3\33\3\34\3\34\3\35\3\35\3\36\3\36\3\36\5\36\u016e"+
-		"\n\36\3\36\5\36\u0171\n\36\3\36\2\3\60\37\2\4\6\b\n\f\16\20\22\24\26\30"+
-		"\32\34\36 \"$&(*,.\60\62\64\668:\2\7\3\2,/\3\2!$\3\2\21\27\3\2%*\3\2-"+
-		".\2\u019a\2<\3\2\2\2\4C\3\2\2\2\6J\3\2\2\2\bT\3\2\2\2\n^\3\2\2\2\fe\3"+
-		"\2\2\2\16t\3\2\2\2\20{\3\2\2\2\22\u0085\3\2\2\2\24\u0087\3\2\2\2\26\u008e"+
-		"\3\2\2\2\30\u00a9\3\2\2\2\32\u00af\3\2\2\2\34\u00b1\3\2\2\2\36\u00bd\3"+
-		"\2\2\2 \u00c9\3\2\2\2\"\u00d5\3\2\2\2$\u00d7\3\2\2\2&\u00d9\3\2\2\2(\u00db"+
-		"\3\2\2\2*\u00e4\3\2\2\2,\u00e7\3\2\2\2.\u00ff\3\2\2\2\60\u012b\3\2\2\2"+
-		"\62\u0162\3\2\2\2\64\u0164\3\2\2\2\66\u0166\3\2\2\28\u0168\3\2\2\2:\u0170"+
-		"\3\2\2\2<>\5\4\3\2=?\5\24\13\2>=\3\2\2\2>?\3\2\2\2?A\3\2\2\2@B\5(\25\2"+
-		"A@\3\2\2\2AB\3\2\2\2B\3\3\2\2\2CG\7\3\2\2DF\5\6\4\2ED\3\2\2\2FI\3\2\2"+
-		"\2GE\3\2\2\2GH\3\2\2\2H\5\3\2\2\2IG\3\2\2\2JM\5\b\5\2KN\5\22\n\2LN\5\f"+
-		"\7\2MK\3\2\2\2ML\3\2\2\2NO\3\2\2\2OM\3\2\2\2OP\3\2\2\2PQ\3\2\2\2QR\7\4"+
-		"\2\2R\7\3\2\2\2SU\7\60\2\2TS\3\2\2\2TU\3\2\2\2UV\3\2\2\2VX\7,\2\2WY\7"+
-		"\60\2\2XW\3\2\2\2XY\3\2\2\2YZ\3\2\2\2Z\\\7\5\2\2[]\7\60\2\2\\[\3\2\2\2"+
-		"\\]\3\2\2\2]\t\3\2\2\2^_\7\6\2\2_`\7-\2\2`a\7\7\2\2ab\7-\2\2bc\7\b\2\2"+
-		"c\13\3\2\2\2df\7\60\2\2ed\3\2\2\2ef\3\2\2\2fg\3\2\2\2gi\5\n\6\2hj\7\60"+
-		"\2\2ih\3\2\2\2ij\3\2\2\2jk\3\2\2\2km\7\t\2\2ln\5\16\b\2ml\3\2\2\2no\3"+
-		"\2\2\2om\3\2\2\2op\3\2\2\2pq\3\2\2\2qr\7\n\2\2r\r\3\2\2\2su\7\60\2\2t"+
-		"s\3\2\2\2tu\3\2\2\2uv\3\2\2\2vx\7,\2\2wy\7\60\2\2xw\3\2\2\2xy\3\2\2\2"+
-		"y\17\3\2\2\2z|\7\60\2\2{z\3\2\2\2{|\3\2\2\2|}\3\2\2\2}~\7\6\2\2~\177\7"+
-		",\2\2\177\u0081\7\b\2\2\u0080\u0082\7\60\2\2\u0081\u0080\3\2\2\2\u0081"+
-		"\u0082\3\2\2\2\u0082\21\3\2\2\2\u0083\u0086\5\16\b\2\u0084\u0086\5\20"+
-		"\t\2\u0085\u0083\3\2\2\2\u0085\u0084\3\2\2\2\u0086\23\3\2\2\2\u0087\u008b"+
-		"\7\13\2\2\u0088\u008a\5\26\f\2\u0089\u0088\3\2\2\2\u008a\u008d\3\2\2\2"+
-		"\u008b\u0089\3\2\2\2\u008b\u008c\3\2\2\2\u008c\25\3\2\2\2\u008d\u008b"+
-		"\3\2\2\2\u008e\u0090\5\30\r\2\u008f\u0091\7\60\2\2\u0090\u008f\3\2\2\2"+
-		"\u0090\u0091\3\2\2\2\u0091\u0092\3\2\2\2\u0092\u0094\7\5\2\2\u0093\u0095"+
-		"\7\60\2\2\u0094\u0093\3\2\2\2\u0094\u0095\3\2\2\2\u0095\u0096\3\2\2\2"+
-		"\u0096\u0098\5\32\16\2\u0097\u0099\7\60\2\2\u0098\u0097\3\2\2\2\u0098"+
-		"\u0099\3\2\2\2\u0099\u009a\3\2\2\2\u009a\u009c\7\7\2\2\u009b\u009d\7\60"+
-		"\2\2\u009c\u009b\3\2\2\2\u009c\u009d\3\2\2\2\u009d\u009e\3\2\2\2\u009e"+
-		"\u00a0\5\"\22\2\u009f\u00a1\7\60\2\2\u00a0\u009f\3\2\2\2\u00a0\u00a1\3"+
-		"\2\2\2\u00a1\u00a2\3\2\2\2\u00a2\u00a4\7\7\2\2\u00a3\u00a5\7\60\2\2\u00a4"+
-		"\u00a3\3\2\2\2\u00a4\u00a5\3\2\2\2\u00a5\u00a6\3\2\2\2\u00a6\u00a7\5$"+
-		"\23\2\u00a7\u00a8\7\4\2\2\u00a8\27\3\2\2\2\u00a9\u00aa\7,\2\2\u00aa\u00ab"+
-		"\7\f\2\2\u00ab\u00ac\7,\2\2\u00ac\31\3\2\2\2\u00ad\u00b0\5\34\17\2\u00ae"+
-		"\u00b0\5\36\20\2\u00af\u00ad\3\2\2\2\u00af\u00ae\3\2\2\2\u00b0\33\3\2"+
-		"\2\2\u00b1\u00b2\7\6\2\2\u00b2\u00b7\5&\24\2\u00b3\u00b4\7\7\2\2\u00b4"+
-		"\u00b6\5&\24\2\u00b5\u00b3\3\2\2\2\u00b6\u00b9\3\2\2\2\u00b7\u00b5\3\2"+
-		"\2\2\u00b7\u00b8\3\2\2\2\u00b8\u00ba\3\2\2\2\u00b9\u00b7\3\2\2\2\u00ba"+
-		"\u00bb\7\b\2\2\u00bb\35\3\2\2\2\u00bc\u00be\7\60\2\2\u00bd\u00bc\3\2\2"+
-		"\2\u00bd\u00be\3\2\2\2\u00be\u00bf\3\2\2\2\u00bf\u00c1\7+\2\2\u00c0\u00c2"+
-		"\7\60\2\2\u00c1\u00c0\3\2\2\2\u00c1\u00c2\3\2\2\2\u00c2\u00c6\3\2\2\2"+
-		"\u00c3\u00c5\5 \21\2\u00c4\u00c3\3\2\2\2\u00c5\u00c8\3\2\2\2\u00c6\u00c4"+
-		"\3\2\2\2\u00c6\u00c7\3\2\2\2\u00c7\37\3\2\2\2\u00c8\u00c6\3\2\2\2\u00c9"+
-		"\u00ca\7\6\2\2\u00ca\u00cc\7-\2\2\u00cb\u00cd\7\60\2\2\u00cc\u00cb\3\2"+
-		"\2\2\u00cc\u00cd\3\2\2\2\u00cd\u00ce\3\2\2\2\u00ce\u00d0\7\r\2\2\u00cf"+
-		"\u00d1\7\60\2\2\u00d0\u00cf\3\2\2\2\u00d0\u00d1\3\2\2\2\u00d1\u00d2\3"+
-		"\2\2\2\u00d2\u00d3\7-\2\2\u00d3\u00d4\7\b\2\2\u00d4!\3\2\2\2\u00d5\u00d6"+
-		"\5&\24\2\u00d6#\3\2\2\2\u00d7\u00d8\5&\24\2\u00d8%\3\2\2\2\u00d9\u00da"+
-		"\t\2\2\2\u00da\'\3\2\2\2\u00db\u00df\7\16\2\2\u00dc\u00de\5*\26\2\u00dd"+
-		"\u00dc\3\2\2\2\u00de\u00e1\3\2\2\2\u00df\u00dd\3\2\2\2\u00df\u00e0\3\2"+
-		"\2\2\u00e0)\3\2\2\2\u00e1\u00df\3\2\2\2\u00e2\u00e5\5,\27\2\u00e3\u00e5"+
-		"\5.\30\2\u00e4\u00e2\3\2\2\2\u00e4\u00e3\3\2\2\2\u00e5+\3\2\2\2\u00e6"+
-		"\u00e8\7\60\2\2\u00e7\u00e6\3\2\2\2\u00e7\u00e8\3\2\2\2\u00e8\u00e9\3"+
-		"\2\2\2\u00e9\u00eb\7,\2\2\u00ea\u00ec\7\60\2\2\u00eb\u00ea\3\2\2\2\u00eb"+
-		"\u00ec\3\2\2\2\u00ec\u00ed\3\2\2\2\u00ed\u00ef\7\t\2\2\u00ee\u00f0\7\60"+
-		"\2\2\u00ef\u00ee\3\2\2\2\u00ef\u00f0\3\2\2\2\u00f0\u00f4\3\2\2\2\u00f1"+
-		"\u00f3\5.\30\2\u00f2\u00f1\3\2\2\2\u00f3\u00f6\3\2\2\2\u00f4\u00f2\3\2"+
-		"\2\2\u00f4\u00f5\3\2\2\2\u00f5\u00f8\3\2\2\2\u00f6\u00f4\3\2\2\2\u00f7"+
-		"\u00f9\7\60\2\2\u00f8\u00f7\3\2\2\2\u00f8\u00f9\3\2\2\2\u00f9\u00fa\3"+
-		"\2\2\2\u00fa\u00fc\7\n\2\2\u00fb\u00fd\7\60\2\2\u00fc\u00fb\3\2\2\2\u00fc"+
-		"\u00fd\3\2\2\2\u00fd-\3\2\2\2\u00fe\u0100\7\60\2\2\u00ff\u00fe\3\2\2\2"+
-		"\u00ff\u0100\3\2\2\2\u0100\u0101\3\2\2\2\u0101\u0103\5\60\31\2\u0102\u0104"+
-		"\7\60\2\2\u0103\u0102\3\2\2\2\u0103\u0104\3\2\2\2\u0104\u0105\3\2\2\2"+
-		"\u0105\u0107\7\4\2\2\u0106\u0108\7\60\2\2\u0107\u0106\3\2\2\2\u0107\u0108"+
-		"\3\2\2\2\u0108/\3\2\2\2\u0109\u010b\b\31\1\2\u010a\u010c\7\60\2\2\u010b"+
-		"\u010a\3\2\2\2\u010b\u010c\3\2\2\2\u010c\u010d\3\2\2\2\u010d\u010f\7\17"+
-		"\2\2\u010e\u0110\7\60\2\2\u010f\u010e\3\2\2\2\u010f\u0110\3\2\2\2\u0110"+
-		"\u0111\3\2\2\2\u0111\u0113\5\60\31\2\u0112\u0114\7\60\2\2\u0113\u0112"+
-		"\3\2\2\2\u0113\u0114\3\2\2\2\u0114\u0115\3\2\2\2\u0115\u0117\7\20\2\2"+
-		"\u0116\u0118\7\60\2\2\u0117\u0116\3\2\2\2\u0117\u0118\3\2\2\2\u0118\u012c"+
-		"\3\2\2\2\u0119\u011b\7\60\2\2\u011a\u0119\3\2\2\2\u011a\u011b\3\2\2\2"+
-		"\u011b\u011c\3\2\2\2\u011c\u011e\7 \2\2\u011d\u011f\7\60\2\2\u011e\u011d"+
-		"\3\2\2\2\u011e\u011f\3\2\2\2\u011f\u0120\3\2\2\2\u0120\u012c\5\60\31\t"+
-		"\u0121\u0123\7\60\2\2\u0122\u0121\3\2\2\2\u0122\u0123\3\2\2\2\u0123\u0126"+
-		"\3\2\2\2\u0124\u0127\5:\36\2\u0125\u0127\58\35\2\u0126\u0124\3\2\2\2\u0126"+
-		"\u0125\3\2\2\2\u0127\u0129\3\2\2\2\u0128\u012a\7\60\2\2\u0129\u0128\3"+
-		"\2\2\2\u0129\u012a\3\2\2\2\u012a\u012c\3\2\2\2\u012b\u0109\3\2\2\2\u012b"+
-		"\u011a\3\2\2\2\u012b\u0122\3\2\2\2\u012c\u015f\3\2\2\2\u012d\u012f\f\b"+
-		"\2\2\u012e\u0130\7\60\2\2\u012f\u012e\3\2\2\2\u012f\u0130\3\2\2\2\u0130"+
-		"\u0131\3\2\2\2\u0131\u0133\5\64\33\2\u0132\u0134\7\60\2\2\u0133\u0132"+
-		"\3\2\2\2\u0133\u0134\3\2\2\2\u0134\u0135\3\2\2\2\u0135\u0136\5\60\31\t"+
-		"\u0136\u015e\3\2\2\2\u0137\u0139\f\7\2\2\u0138\u013a\7\60\2\2\u0139\u0138"+
-		"\3\2\2\2\u0139\u013a\3\2\2\2\u013a\u013b\3\2\2\2\u013b\u013d\5\66\34\2"+
-		"\u013c\u013e\7\60\2\2\u013d\u013c\3\2\2\2\u013d\u013e\3\2\2\2\u013e\u013f"+
-		"\3\2\2\2\u013f\u0140\5\60\31\b\u0140\u015e\3\2\2\2\u0141\u0143\f\6\2\2"+
-		"\u0142\u0144\7\60\2\2\u0143\u0142\3\2\2\2\u0143\u0144\3\2\2\2\u0144\u0145"+
-		"\3\2\2\2\u0145\u0147\7\36\2\2\u0146\u0148\7\60\2\2\u0147\u0146\3\2\2\2"+
-		"\u0147\u0148\3\2\2\2\u0148\u0149\3\2\2\2\u0149\u015e\5\60\31\7\u014a\u014c"+
-		"\f\5\2\2\u014b\u014d\7\60\2\2\u014c\u014b\3\2\2\2\u014c\u014d\3\2\2\2"+
-		"\u014d\u014e\3\2\2\2\u014e\u0150\7\37\2\2\u014f\u0151\7\60\2\2\u0150\u014f"+
-		"\3\2\2\2\u0150\u0151\3\2\2\2\u0151\u0152\3\2\2\2\u0152\u015e\5\60\31\6"+
-		"\u0153\u0155\f\4\2\2\u0154\u0156\7\60\2\2\u0155\u0154\3\2\2\2\u0155\u0156"+
-		"\3\2\2\2\u0156\u0157\3\2\2\2\u0157\u0159\5\62\32\2\u0158\u015a\7\60\2"+
-		"\2\u0159\u0158\3\2\2\2\u0159\u015a\3\2\2\2\u015a\u015b\3\2\2\2\u015b\u015c"+
-		"\5\60\31\5\u015c\u015e\3\2\2\2\u015d\u012d\3\2\2\2\u015d\u0137\3\2\2\2"+
-		"\u015d\u0141\3\2\2\2\u015d\u014a\3\2\2\2\u015d\u0153\3\2\2\2\u015e\u0161"+
-		"\3\2\2\2\u015f\u015d\3\2\2\2\u015f\u0160\3\2\2\2\u0160\61\3\2\2\2\u0161"+
-		"\u015f\3\2\2\2\u0162\u0163\t\3\2\2\u0163\63\3\2\2\2\u0164\u0165\t\4\2"+
-		"\2\u0165\65\3\2\2\2\u0166\u0167\t\5\2\2\u0167\67\3\2\2\2\u0168\u0169\t"+
-		"\6\2\2\u01699\3\2\2\2\u016a\u016d\7,\2\2\u016b\u016c\7\f\2\2\u016c\u016e"+
-		"\7,\2\2\u016d\u016b\3\2\2\2\u016d\u016e\3\2\2\2\u016e\u0171\3\2\2\2\u016f"+
-		"\u0171\7,\2\2\u0170\u016a\3\2\2\2\u0170\u016f\3\2\2\2\u0171;\3\2\2\2C"+
-		">AGMOTX\\eiotx{\u0081\u0085\u008b\u0090\u0094\u0098\u009c\u00a0\u00a4"+
-		"\u00af\u00b7\u00bd\u00c1\u00c6\u00cc\u00d0\u00df\u00e4\u00e7\u00eb\u00ef"+
-		"\u00f4\u00f8\u00fc\u00ff\u0103\u0107\u010b\u010f\u0113\u0117\u011a\u011e"+
-		"\u0122\u0126\u0129\u012b\u012f\u0133\u0139\u013d\u0143\u0147\u014c\u0150"+
-		"\u0155\u0159\u015d\u015f\u016d\u0170";
+		"\4\32\t\32\4\33\t\33\4\34\t\34\4\35\t\35\4\36\t\36\4\37\t\37\3\2\3\2\5"+
+		"\2A\n\2\3\2\5\2D\n\2\3\3\3\3\7\3H\n\3\f\3\16\3K\13\3\3\4\3\4\3\4\6\4P"+
+		"\n\4\r\4\16\4Q\3\4\3\4\3\5\5\5W\n\5\3\5\3\5\5\5[\n\5\3\5\3\5\5\5_\n\5"+
+		"\3\6\3\6\3\6\3\6\3\6\3\6\3\7\5\7h\n\7\3\7\3\7\5\7l\n\7\3\7\3\7\6\7p\n"+
+		"\7\r\7\16\7q\3\7\3\7\3\b\5\bw\n\b\3\b\3\b\5\b{\n\b\3\t\5\t~\n\t\3\t\3"+
+		"\t\3\t\3\t\5\t\u0084\n\t\3\n\3\n\5\n\u0088\n\n\3\13\3\13\7\13\u008c\n"+
+		"\13\f\13\16\13\u008f\13\13\3\f\3\f\5\f\u0093\n\f\3\f\3\f\5\f\u0097\n\f"+
+		"\3\f\3\f\5\f\u009b\n\f\3\f\3\f\5\f\u009f\n\f\3\f\3\f\5\f\u00a3\n\f\3\f"+
+		"\3\f\5\f\u00a7\n\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\16\3\16\5\16\u00b2\n"+
+		"\16\3\17\3\17\3\17\3\17\7\17\u00b8\n\17\f\17\16\17\u00bb\13\17\3\17\3"+
+		"\17\3\20\5\20\u00c0\n\20\3\20\3\20\5\20\u00c4\n\20\3\20\7\20\u00c7\n\20"+
+		"\f\20\16\20\u00ca\13\20\3\21\3\21\3\21\5\21\u00cf\n\21\3\21\3\21\5\21"+
+		"\u00d3\n\21\3\21\3\21\3\21\3\22\3\22\3\23\3\23\3\24\3\24\3\25\3\25\7\25"+
+		"\u00e0\n\25\f\25\16\25\u00e3\13\25\3\26\3\26\5\26\u00e7\n\26\3\27\5\27"+
+		"\u00ea\n\27\3\27\3\27\5\27\u00ee\n\27\3\27\3\27\5\27\u00f2\n\27\3\27\7"+
+		"\27\u00f5\n\27\f\27\16\27\u00f8\13\27\3\27\5\27\u00fb\n\27\3\27\3\27\5"+
+		"\27\u00ff\n\27\3\30\5\30\u0102\n\30\3\30\3\30\5\30\u0106\n\30\3\30\3\30"+
+		"\5\30\u010a\n\30\3\31\3\31\5\31\u010e\n\31\3\31\3\31\5\31\u0112\n\31\3"+
+		"\31\3\31\5\31\u0116\n\31\3\31\3\31\5\31\u011a\n\31\3\31\5\31\u011d\n\31"+
+		"\3\31\3\31\5\31\u0121\n\31\3\31\3\31\5\31\u0125\n\31\3\31\3\31\5\31\u0129"+
+		"\n\31\3\31\5\31\u012c\n\31\3\31\5\31\u012f\n\31\3\31\3\31\5\31\u0133\n"+
+		"\31\3\31\3\31\5\31\u0137\n\31\3\31\3\31\3\31\3\31\5\31\u013d\n\31\3\31"+
+		"\3\31\5\31\u0141\n\31\3\31\3\31\3\31\3\31\5\31\u0147\n\31\3\31\3\31\5"+
+		"\31\u014b\n\31\3\31\3\31\3\31\5\31\u0150\n\31\3\31\3\31\5\31\u0154\n\31"+
+		"\3\31\3\31\3\31\5\31\u0159\n\31\3\31\3\31\5\31\u015d\n\31\3\31\3\31\7"+
+		"\31\u0161\n\31\f\31\16\31\u0164\13\31\3\32\3\32\3\32\3\32\3\32\3\32\3"+
+		"\32\7\32\u016d\n\32\f\32\16\32\u0170\13\32\3\33\3\33\3\34\3\34\3\35\3"+
+		"\35\3\36\3\36\3\37\3\37\3\37\5\37\u017d\n\37\3\37\5\37\u0180\n\37\3\37"+
+		"\2\3\60 \2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668"+
+		":<\2\7\3\2,/\3\2!$\3\2\21\27\3\2%*\3\2-.\2\u01b0\2>\3\2\2\2\4E\3\2\2\2"+
+		"\6L\3\2\2\2\bV\3\2\2\2\n`\3\2\2\2\fg\3\2\2\2\16v\3\2\2\2\20}\3\2\2\2\22"+
+		"\u0087\3\2\2\2\24\u0089\3\2\2\2\26\u0090\3\2\2\2\30\u00ab\3\2\2\2\32\u00b1"+
+		"\3\2\2\2\34\u00b3\3\2\2\2\36\u00bf\3\2\2\2 \u00cb\3\2\2\2\"\u00d7\3\2"+
+		"\2\2$\u00d9\3\2\2\2&\u00db\3\2\2\2(\u00dd\3\2\2\2*\u00e6\3\2\2\2,\u00e9"+
+		"\3\2\2\2.\u0101\3\2\2\2\60\u012e\3\2\2\2\62\u016e\3\2\2\2\64\u0171\3\2"+
+		"\2\2\66\u0173\3\2\2\28\u0175\3\2\2\2:\u0177\3\2\2\2<\u017f\3\2\2\2>@\5"+
+		"\4\3\2?A\5\24\13\2@?\3\2\2\2@A\3\2\2\2AC\3\2\2\2BD\5(\25\2CB\3\2\2\2C"+
+		"D\3\2\2\2D\3\3\2\2\2EI\7\3\2\2FH\5\6\4\2GF\3\2\2\2HK\3\2\2\2IG\3\2\2\2"+
+		"IJ\3\2\2\2J\5\3\2\2\2KI\3\2\2\2LO\5\b\5\2MP\5\22\n\2NP\5\f\7\2OM\3\2\2"+
+		"\2ON\3\2\2\2PQ\3\2\2\2QO\3\2\2\2QR\3\2\2\2RS\3\2\2\2ST\7\4\2\2T\7\3\2"+
+		"\2\2UW\7\60\2\2VU\3\2\2\2VW\3\2\2\2WX\3\2\2\2XZ\7,\2\2Y[\7\60\2\2ZY\3"+
+		"\2\2\2Z[\3\2\2\2[\\\3\2\2\2\\^\7\5\2\2]_\7\60\2\2^]\3\2\2\2^_\3\2\2\2"+
+		"_\t\3\2\2\2`a\7\6\2\2ab\7-\2\2bc\7\7\2\2cd\7-\2\2de\7\b\2\2e\13\3\2\2"+
+		"\2fh\7\60\2\2gf\3\2\2\2gh\3\2\2\2hi\3\2\2\2ik\5\n\6\2jl\7\60\2\2kj\3\2"+
+		"\2\2kl\3\2\2\2lm\3\2\2\2mo\7\t\2\2np\5\16\b\2on\3\2\2\2pq\3\2\2\2qo\3"+
+		"\2\2\2qr\3\2\2\2rs\3\2\2\2st\7\n\2\2t\r\3\2\2\2uw\7\60\2\2vu\3\2\2\2v"+
+		"w\3\2\2\2wx\3\2\2\2xz\7,\2\2y{\7\60\2\2zy\3\2\2\2z{\3\2\2\2{\17\3\2\2"+
+		"\2|~\7\60\2\2}|\3\2\2\2}~\3\2\2\2~\177\3\2\2\2\177\u0080\7\6\2\2\u0080"+
+		"\u0081\7,\2\2\u0081\u0083\7\b\2\2\u0082\u0084\7\60\2\2\u0083\u0082\3\2"+
+		"\2\2\u0083\u0084\3\2\2\2\u0084\21\3\2\2\2\u0085\u0088\5\16\b\2\u0086\u0088"+
+		"\5\20\t\2\u0087\u0085\3\2\2\2\u0087\u0086\3\2\2\2\u0088\23\3\2\2\2\u0089"+
+		"\u008d\7\13\2\2\u008a\u008c\5\26\f\2\u008b\u008a\3\2\2\2\u008c\u008f\3"+
+		"\2\2\2\u008d\u008b\3\2\2\2\u008d\u008e\3\2\2\2\u008e\25\3\2\2\2\u008f"+
+		"\u008d\3\2\2\2\u0090\u0092\5\30\r\2\u0091\u0093\7\60\2\2\u0092\u0091\3"+
+		"\2\2\2\u0092\u0093\3\2\2\2\u0093\u0094\3\2\2\2\u0094\u0096\7\5\2\2\u0095"+
+		"\u0097\7\60\2\2\u0096\u0095\3\2\2\2\u0096\u0097\3\2\2\2\u0097\u0098\3"+
+		"\2\2\2\u0098\u009a\5\32\16\2\u0099\u009b\7\60\2\2\u009a\u0099\3\2\2\2"+
+		"\u009a\u009b\3\2\2\2\u009b\u009c\3\2\2\2\u009c\u009e\7\7\2\2\u009d\u009f"+
+		"\7\60\2\2\u009e\u009d\3\2\2\2\u009e\u009f\3\2\2\2\u009f\u00a0\3\2\2\2"+
+		"\u00a0\u00a2\5\"\22\2\u00a1\u00a3\7\60\2\2\u00a2\u00a1\3\2\2\2\u00a2\u00a3"+
+		"\3\2\2\2\u00a3\u00a4\3\2\2\2\u00a4\u00a6\7\7\2\2\u00a5\u00a7\7\60\2\2"+
+		"\u00a6\u00a5\3\2\2\2\u00a6\u00a7\3\2\2\2\u00a7\u00a8\3\2\2\2\u00a8\u00a9"+
+		"\5$\23\2\u00a9\u00aa\7\4\2\2\u00aa\27\3\2\2\2\u00ab\u00ac\7,\2\2\u00ac"+
+		"\u00ad\7\f\2\2\u00ad\u00ae\7,\2\2\u00ae\31\3\2\2\2\u00af\u00b2\5\34\17"+
+		"\2\u00b0\u00b2\5\36\20\2\u00b1\u00af\3\2\2\2\u00b1\u00b0\3\2\2\2\u00b2"+
+		"\33\3\2\2\2\u00b3\u00b4\7\6\2\2\u00b4\u00b9\5&\24\2\u00b5\u00b6\7\7\2"+
+		"\2\u00b6\u00b8\5&\24\2\u00b7\u00b5\3\2\2\2\u00b8\u00bb\3\2\2\2\u00b9\u00b7"+
+		"\3\2\2\2\u00b9\u00ba\3\2\2\2\u00ba\u00bc\3\2\2\2\u00bb\u00b9\3\2\2\2\u00bc"+
+		"\u00bd\7\b\2\2\u00bd\35\3\2\2\2\u00be\u00c0\7\60\2\2\u00bf\u00be\3\2\2"+
+		"\2\u00bf\u00c0\3\2\2\2\u00c0\u00c1\3\2\2\2\u00c1\u00c3\7+\2\2\u00c2\u00c4"+
+		"\7\60\2\2\u00c3\u00c2\3\2\2\2\u00c3\u00c4\3\2\2\2\u00c4\u00c8\3\2\2\2"+
+		"\u00c5\u00c7\5 \21\2\u00c6\u00c5\3\2\2\2\u00c7\u00ca\3\2\2\2\u00c8\u00c6"+
+		"\3\2\2\2\u00c8\u00c9\3\2\2\2\u00c9\37\3\2\2\2\u00ca\u00c8\3\2\2\2\u00cb"+
+		"\u00cc\7\6\2\2\u00cc\u00ce\7-\2\2\u00cd\u00cf\7\60\2\2\u00ce\u00cd\3\2"+
+		"\2\2\u00ce\u00cf\3\2\2\2\u00cf\u00d0\3\2\2\2\u00d0\u00d2\7\r\2\2\u00d1"+
+		"\u00d3\7\60\2\2\u00d2\u00d1\3\2\2\2\u00d2\u00d3\3\2\2\2\u00d3\u00d4\3"+
+		"\2\2\2\u00d4\u00d5\7-\2\2\u00d5\u00d6\7\b\2\2\u00d6!\3\2\2\2\u00d7\u00d8"+
+		"\5&\24\2\u00d8#\3\2\2\2\u00d9\u00da\5&\24\2\u00da%\3\2\2\2\u00db\u00dc"+
+		"\t\2\2\2\u00dc\'\3\2\2\2\u00dd\u00e1\7\16\2\2\u00de\u00e0\5*\26\2\u00df"+
+		"\u00de\3\2\2\2\u00e0\u00e3\3\2\2\2\u00e1\u00df\3\2\2\2\u00e1\u00e2\3\2"+
+		"\2\2\u00e2)\3\2\2\2\u00e3\u00e1\3\2\2\2\u00e4\u00e7\5,\27\2\u00e5\u00e7"+
+		"\5.\30\2\u00e6\u00e4\3\2\2\2\u00e6\u00e5\3\2\2\2\u00e7+\3\2\2\2\u00e8"+
+		"\u00ea\7\60\2\2\u00e9\u00e8\3\2\2\2\u00e9\u00ea\3\2\2\2\u00ea\u00eb\3"+
+		"\2\2\2\u00eb\u00ed\7,\2\2\u00ec\u00ee\7\60\2\2\u00ed\u00ec\3\2\2\2\u00ed"+
+		"\u00ee\3\2\2\2\u00ee\u00ef\3\2\2\2\u00ef\u00f1\7\t\2\2\u00f0\u00f2\7\60"+
+		"\2\2\u00f1\u00f0\3\2\2\2\u00f1\u00f2\3\2\2\2\u00f2\u00f6\3\2\2\2\u00f3"+
+		"\u00f5\5.\30\2\u00f4\u00f3\3\2\2\2\u00f5\u00f8\3\2\2\2\u00f6\u00f4\3\2"+
+		"\2\2\u00f6\u00f7\3\2\2\2\u00f7\u00fa\3\2\2\2\u00f8\u00f6\3\2\2\2\u00f9"+
+		"\u00fb\7\60\2\2\u00fa\u00f9\3\2\2\2\u00fa\u00fb\3\2\2\2\u00fb\u00fc\3"+
+		"\2\2\2\u00fc\u00fe\7\n\2\2\u00fd\u00ff\7\60\2\2\u00fe\u00fd\3\2\2\2\u00fe"+
+		"\u00ff\3\2\2\2\u00ff-\3\2\2\2\u0100\u0102\7\60\2\2\u0101\u0100\3\2\2\2"+
+		"\u0101\u0102\3\2\2\2\u0102\u0103\3\2\2\2\u0103\u0105\5\60\31\2\u0104\u0106"+
+		"\7\60\2\2\u0105\u0104\3\2\2\2\u0105\u0106\3\2\2\2\u0106\u0107\3\2\2\2"+
+		"\u0107\u0109\7\4\2\2\u0108\u010a\7\60\2\2\u0109\u0108\3\2\2\2\u0109\u010a"+
+		"\3\2\2\2\u010a/\3\2\2\2\u010b\u010d\b\31\1\2\u010c\u010e\7\60\2\2\u010d"+
+		"\u010c\3\2\2\2\u010d\u010e\3\2\2\2\u010e\u010f\3\2\2\2\u010f\u0111\7\17"+
+		"\2\2\u0110\u0112\7\60\2\2\u0111\u0110\3\2\2\2\u0111\u0112\3\2\2\2\u0112"+
+		"\u0113\3\2\2\2\u0113\u0115\5\60\31\2\u0114\u0116\7\60\2\2\u0115\u0114"+
+		"\3\2\2\2\u0115\u0116\3\2\2\2\u0116\u0117\3\2\2\2\u0117\u0119\7\20\2\2"+
+		"\u0118\u011a\7\60\2\2\u0119\u0118\3\2\2\2\u0119\u011a\3\2\2\2\u011a\u012f"+
+		"\3\2\2\2\u011b\u011d\7\60\2\2\u011c\u011b\3\2\2\2\u011c\u011d\3\2\2\2"+
+		"\u011d\u011e\3\2\2\2\u011e\u0120\7 \2\2\u011f\u0121\7\60\2\2\u0120\u011f"+
+		"\3\2\2\2\u0120\u0121\3\2\2\2\u0121\u0122\3\2\2\2\u0122\u012f\5\60\31\n"+
+		"\u0123\u0125\7\60\2\2\u0124\u0123\3\2\2\2\u0124\u0125\3\2\2\2\u0125\u0128"+
+		"\3\2\2\2\u0126\u0129\5<\37\2\u0127\u0129\5:\36\2\u0128\u0126\3\2\2\2\u0128"+
+		"\u0127\3\2\2\2\u0129\u012b\3\2\2\2\u012a\u012c\7\60\2\2\u012b\u012a\3"+
+		"\2\2\2\u012b\u012c\3\2\2\2\u012c\u012f\3\2\2\2\u012d\u012f\5\62\32\2\u012e"+
+		"\u010b\3\2\2\2\u012e\u011c\3\2\2\2\u012e\u0124\3\2\2\2\u012e\u012d\3\2"+
+		"\2\2\u012f\u0162\3\2\2\2\u0130\u0132\f\t\2\2\u0131\u0133\7\60\2\2\u0132"+
+		"\u0131\3\2\2\2\u0132\u0133\3\2\2\2\u0133\u0134\3\2\2\2\u0134\u0136\5\66"+
+		"\34\2\u0135\u0137\7\60\2\2\u0136\u0135\3\2\2\2\u0136\u0137\3\2\2\2\u0137"+
+		"\u0138\3\2\2\2\u0138\u0139\5\60\31\n\u0139\u0161\3\2\2\2\u013a\u013c\f"+
+		"\b\2\2\u013b\u013d\7\60\2\2\u013c\u013b\3\2\2\2\u013c\u013d\3\2\2\2\u013d"+
+		"\u013e\3\2\2\2\u013e\u0140\58\35\2\u013f\u0141\7\60\2\2\u0140\u013f\3"+
+		"\2\2\2\u0140\u0141\3\2\2\2\u0141\u0142\3\2\2\2\u0142\u0143\5\60\31\t\u0143"+
+		"\u0161\3\2\2\2\u0144\u0146\f\7\2\2\u0145\u0147\7\60\2\2\u0146\u0145\3"+
+		"\2\2\2\u0146\u0147\3\2\2\2\u0147\u0148\3\2\2\2\u0148\u014a\7\36\2\2\u0149"+
+		"\u014b\7\60\2\2\u014a\u0149\3\2\2\2\u014a\u014b\3\2\2\2\u014b\u014c\3"+
+		"\2\2\2\u014c\u0161\5\60\31\b\u014d\u014f\f\6\2\2\u014e\u0150\7\60\2\2"+
+		"\u014f\u014e\3\2\2\2\u014f\u0150\3\2\2\2\u0150\u0151\3\2\2\2\u0151\u0153"+
+		"\7\37\2\2\u0152\u0154\7\60\2\2\u0153\u0152\3\2\2\2\u0153\u0154\3\2\2\2"+
+		"\u0154\u0155\3\2\2\2\u0155\u0161\5\60\31\7\u0156\u0158\f\5\2\2\u0157\u0159"+
+		"\7\60\2\2\u0158\u0157\3\2\2\2\u0158\u0159\3\2\2\2\u0159\u015a\3\2\2\2"+
+		"\u015a\u015c\5\64\33\2\u015b\u015d\7\60\2\2\u015c\u015b\3\2\2\2\u015c"+
+		"\u015d\3\2\2\2\u015d\u015e\3\2\2\2\u015e\u015f\5\60\31\6\u015f\u0161\3"+
+		"\2\2\2\u0160\u0130\3\2\2\2\u0160\u013a\3\2\2\2\u0160\u0144\3\2\2\2\u0160"+
+		"\u014d\3\2\2\2\u0160\u0156\3\2\2\2\u0161\u0164\3\2\2\2\u0162\u0160\3\2"+
+		"\2\2\u0162\u0163\3\2\2\2\u0163\61\3\2\2\2\u0164\u0162\3\2\2\2\u0165\u016d"+
+		"\5\64\33\2\u0166\u016d\5\66\34\2\u0167\u016d\58\35\2\u0168\u016d\5:\36"+
+		"\2\u0169\u016d\5<\37\2\u016a\u016d\7\17\2\2\u016b\u016d\7\20\2\2\u016c"+
+		"\u0165\3\2\2\2\u016c\u0166\3\2\2\2\u016c\u0167\3\2\2\2\u016c\u0168\3\2"+
+		"\2\2\u016c\u0169\3\2\2\2\u016c\u016a\3\2\2\2\u016c\u016b\3\2\2\2\u016d"+
+		"\u0170\3\2\2\2\u016e\u016c\3\2\2\2\u016e\u016f\3\2\2\2\u016f\63\3\2\2"+
+		"\2\u0170\u016e\3\2\2\2\u0171\u0172\t\3\2\2\u0172\65\3\2\2\2\u0173\u0174"+
+		"\t\4\2\2\u0174\67\3\2\2\2\u0175\u0176\t\5\2\2\u01769\3\2\2\2\u0177\u0178"+
+		"\t\6\2\2\u0178;\3\2\2\2\u0179\u017c\7,\2\2\u017a\u017b\7\f\2\2\u017b\u017d"+
+		"\7,\2\2\u017c\u017a\3\2\2\2\u017c\u017d\3\2\2\2\u017d\u0180\3\2\2\2\u017e"+
+		"\u0180\7,\2\2\u017f\u0179\3\2\2\2\u017f\u017e\3\2\2\2\u0180=\3\2\2\2E"+
+		"@CIOQVZ^gkqvz}\u0083\u0087\u008d\u0092\u0096\u009a\u009e\u00a2\u00a6\u00b1"+
+		"\u00b9\u00bf\u00c3\u00c8\u00ce\u00d2\u00e1\u00e6\u00e9\u00ed\u00f1\u00f6"+
+		"\u00fa\u00fe\u0101\u0105\u0109\u010d\u0111\u0115\u0119\u011c\u0120\u0124"+
+		"\u0128\u012b\u012e\u0132\u0136\u013c\u0140\u0146\u014a\u014f\u0153\u0158"+
+		"\u015c\u0160\u0162\u016c\u016e\u017c\u017f";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

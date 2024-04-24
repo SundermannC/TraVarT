@@ -24,8 +24,6 @@ optional_spec: SPACE? '[' WORD ']' SPACE?;
 
 non_cardinal_spec: (obligatory_spec | optional_spec);
 
-
-
 //attributes block
 
 attributes_block: '%Attributes' attribute_spec*;
@@ -50,7 +48,7 @@ value_spec: (WORD | INT | DOUBLE | STRING);
 
 //constraints block
 
-constraints_block: '%Constraints' constraint_spec*;	
+constraints_block: '%Constraints' constraint_spec*;
 
 constraint_spec: brackets_spec | simple_spec;
 brackets_spec:
@@ -58,14 +56,25 @@ brackets_spec:
 simple_spec: SPACE? expression SPACE? ';' SPACE?;
 
 expression:
-	SPACE? '(' SPACE? expression SPACE? ')' SPACE?			# parenthesisExp
-	| SPACE? NOT SPACE? expression							# notExp
+	SPACE? '(' SPACE? expression SPACE? ')' SPACE?				# parenthesisExp
+	| SPACE? NOT SPACE? expression								# notExp
 	| expression SPACE? arithmetic_operator SPACE? expression	# arithmeticExp
 	| expression SPACE? relational_operator SPACE? expression	# relationalExp
 	| expression SPACE? AND SPACE? expression					# andExp
 	| expression SPACE? OR SPACE? expression					# orExp
-	| expression SPACE? logical_operator SPACE? expression	# logicalExp
-	| SPACE? (variable | number) SPACE?			# atom;
+	| expression SPACE? logical_operator SPACE? expression		# logicalExp
+	| SPACE? (variable | number) SPACE?							# atom
+	| error_expression											# ERROR;
+
+error_expression: (
+		logical_operator
+		| arithmetic_operator
+		| relational_operator
+		| number
+		| variable
+		| '('
+		| ')'
+	)*;
 
 logical_operator: IFF | IMPLIES | REQUIRES | EXCLUDES;
 arithmetic_operator: ADD | SUB | MULT | DIV | MOD | POW | ASIG;
@@ -117,7 +126,7 @@ DISTINCT: '!=';
 
 INTEGER: 'Integer';
 
-WORD: [a-zA-Z]([a-z]|[A-Z]|[0-9]|'_')*;
+WORD: [a-zA-Z]([a-z] | [A-Z] | [0-9] | '_')*;
 INT: '0' | [1-9][0-9]*;
 DOUBLE: [1-9][0-9]* '.' [0-9]+;
 STRING: '"' (~'"')* '"';

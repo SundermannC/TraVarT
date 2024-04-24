@@ -200,6 +200,13 @@ public class AFMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements AF
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitERROR(AFMParser.ERRORContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitRelationalExp(AFMParser.RelationalExpContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -229,6 +236,13 @@ public class AFMBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements AF
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitNotExp(AFMParser.NotExpContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitError_expression(AFMParser.Error_expressionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

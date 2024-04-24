@@ -1,14 +1,14 @@
-# TraVarT Core
+# TraVarT Adaptation for Translating Feature Models to UVL and DIMACS
 
-This directory contains the core interfaces / classes to be used across the TraVarT Ecosystem.
+## Dependencies
+* Antlr 3.4 https://www.antlr.org/
+* FeatureIDE 3.11.1 https://github.com/FeatureIDE/FeatureIDE/releases/tag/v3.11.1
+* UVL Parser 1.0 https://github.com/Universal-Variability-Language/uvl-parser
 
-## CheckStyle
 
-Configure IntelliJ as follows:
+# How to compile
 
-1. Install Checkstyle plugin
-1. Go to Settings|Editor|Code Style, choose a code style you want to import CheckStyle configuration to.
-1. Click Manage...|Import.., choose "CheckStyle Configuration" and select a corresponding CheckStyle configuration file.
-   Click OK
+`mvn clean compile`
 
-[credit](http://biercoff.com/how-to-import-checkstyle-rules-into-intellij-idea-code-format-rules/)
+# How to run
+`mvn clean compile exec:java -Dexec.args="path/to/models"`

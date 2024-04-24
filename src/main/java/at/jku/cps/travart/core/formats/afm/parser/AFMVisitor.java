@@ -171,6 +171,13 @@ public interface AFMVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitParenthesisExp(AFMParser.ParenthesisExpContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ERROR}
+	 * labeled alternative in {@link AFMParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitERROR(AFMParser.ERRORContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code relationalExp}
 	 * labeled alternative in {@link AFMParser#expression}.
 	 * @param ctx the parse tree
@@ -205,6 +212,12 @@ public interface AFMVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNotExp(AFMParser.NotExpContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AFMParser#error_expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitError_expression(AFMParser.Error_expressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AFMParser#logical_operator}.
 	 * @param ctx the parse tree

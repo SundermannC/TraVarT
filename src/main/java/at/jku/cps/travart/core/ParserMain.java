@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,7 @@ import at.jku.cps.travart.core.formats.afm.parser.AFMParser;
 import at.jku.cps.travart.core.formats.afm.parser.AFMVisitorImpl;
 import at.jku.cps.travart.core.formats.afm.parser.AFMParser.Feature_modelContext;
 import de.ovgu.featureide.fm.attributes.FMAttributesLibrary;
+import de.ovgu.featureide.fm.core.base.IFeature;
 import de.ovgu.featureide.fm.core.base.IFeatureModel;
 import de.ovgu.featureide.fm.core.base.impl.DefaultFeatureModelFactory;
 import de.ovgu.featureide.fm.core.init.FMCoreLibrary;
@@ -55,18 +57,23 @@ public class ParserMain {
     private static final String UVL_EXTENSION = "uvl";
     private static final String DIMACS_EXTENSION = "dimacs";
     private static final String ZIP_EXTENSION = "zip";
+    private static final String CFR_EXTENSION = "cfr";
+
+    private static final Set<String> EXTENSIONS_TO_SKIP = Set.of(
+        CFR_EXTENSION);
 
     public static void main(String[] args) throws IOException {
         FMCoreLibrary.getInstance().install();
         FMAttributesLibrary.getInstance().install();
-
+        if (args.length != 1) {
+            System.out.println("Expected number of arguments is 1. Found: " + args.length);
+            return;
+        }
         PrintStream out = new PrintStream(
                 new FileOutputStream("log.txt", false), true);
         System.setOut(out);
         System.setErr(out);
-        translateFeatureModels();
-        // filterAfm();
-
+        translateFeatureModels(args[0]);
     }
 
     private static void deleteDirectoryStream(String path) throws IOException {
@@ -78,8 +85,8 @@ public class ParserMain {
         }
     }
 
-    private static void translateFeatureModels() throws IOException {
-        String featureModelDir = "../feature-model-benchmark/feature_models/dsads/";
+    private static void translateFeatureModels(String path) throws IOException {
+        String featureModelDir = path;
 
         List<File> featureModelFiles = new ArrayList<>();
         listf(featureModelDir, featureModelFiles); // Fill list bah
@@ -168,11 +175,16 @@ public class ParserMain {
             return;
         }
 
+        String extension = getFileExtension(path);
+        String originalExtension = getFileExtension(originalPath);
+
+        if (EXTENSIONS_TO_SKIP.contains(extension)) { // Currently only skips clafer
+            return;
+        }
+
         String subPath = originalPath.split("/original/")[1];
         String subDirectoryUvlPath = "uvl" + File.separator + subPath.substring(0, subPath.lastIndexOf("/"));
         String subDirectoryDimacsPath = "dimacs" + File.separator + subPath.substring(0, subPath.lastIndexOf("/"));
-        String extension = getFileExtension(path);
-        String originalExtension = getFileExtension(originalPath);
         Files.createDirectories(Paths.get(subDirectoryUvlPath));
         Files.createDirectories(Paths.get(subDirectoryDimacsPath));
 
@@ -198,6 +210,7 @@ public class ParserMain {
                     return;
                 }
             }
+            cleanFeatureIDENamesForUVL(model);
             if (!skipUvlExport) {
                 writeUvlModel(model, uvlPath.replace(".zip", ""));
                 if (zipResult) {
@@ -292,6 +305,8 @@ public class ParserMain {
         return path.substring(lastIndexOf + 1);
     }
 
+ 
+
     private static String process(final Tree t, final List<String> ruleNames) {
         if (t.getChildCount() == 0)
             return Utils.escapeWhitespace(Trees.getNodeText(t, ruleNames), false);
@@ -343,5 +358,37 @@ public class ParserMain {
                 .filter(file -> !file.getName().contains(".json"))
                 .map(File::getPath)
                 .collect(Collectors.toSet());
+    }
+
+
+    // ------- Model cleaning 
+
+    private static void cleanFeatureIDENamesForUVL(IFeatureModel sourceModel) {
+        Collection<IFeature> iterateCopy = new ArrayList<>();
+        iterateCopy.addAll(sourceModel.getFeatures());
+        for (IFeature feat : iterateCopy) {
+            if (needsRenaming(feat.getName())) {
+                sourceModel.getRenamingsManager().renameFeature(feat.getName(), getCleanFeatureNameForUVL(feat.getName()));
+            }
+        }
+    }
+    public static final String[] FORBIDDEN_SYMBOLS = {".", "(", ")", "/", "{", "}", "[", "]", "\"", "'"};
+    public static final String[] REPLACEMENTS = {":", "-", "-", "-", "-", "-", "-", "-", "-","-"};
+
+    private static boolean needsRenaming(String name) {
+        for (String forbidden : FORBIDDEN_SYMBOLS) {
+            if (name.contains(forbidden)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String getCleanFeatureNameForUVL(String original) {
+        String updated = original;
+        for (int i = 0; i < FORBIDDEN_SYMBOLS.length; i++) {
+            updated = updated.replace(FORBIDDEN_SYMBOLS[i], REPLACEMENTS[i]);
+        }
+        return updated;
     }
 }
